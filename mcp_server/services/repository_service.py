@@ -6,7 +6,7 @@ GITHUB_URL_PATTERN = re.compile(
     r"^https://github\.com/(?P<owner>[A-Za-z0-9_.-]+)/(?P<repo>[A-Za-z0-9_.-]+?)(?:\.git)?/?$"
 )
 
-WORKSPACE = Path(__file__).parent / "workspace"
+WORKSPACE = Path(__file__).parent.parent / "workspace"
 
 def clone_public_repository(repo_url: str) -> dict:
     """Clone a public Github repoistory with only its latest commit."""
@@ -22,7 +22,7 @@ def clone_public_repository(repo_url: str) -> dict:
     repo_id = f"{owner.lower()}--{repo.lower()}"
     
     WORKSPACE.mkdir(exist_ok=True)
-    target_path = WORKSPACE / repo_id
+    target_path = (WORKSPACE / repo_id).resolve()
     
     if target_path.exists():
         return {
